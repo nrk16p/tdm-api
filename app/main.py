@@ -8,8 +8,9 @@ from sqlalchemy import desc  # 👈 นำเข้า
 
 models.Base.metadata.create_all(bind=database.engine)
 
-app = FastAPI()
+from fastapi import FastAPI
 
+app = FastAPI()
 
 # Dependency
 def get_db():

@@ -1,4 +1,4 @@
-from app.main import app  # 👈 นำเข้า FastAPI app
+from app.main import app
 from mangum import Mangum
 
-handler = Mangum(app)  # 👈 แปลง FastAPI → AWS Lambda-compatible
+handler = Mangum(app)
