@@ -5,16 +5,19 @@ from app import models, auth, database
 from app.database import SessionLocal
 from datetime import date, timedelta, datetime  # ✅ แก้ตรงนี้
 from sqlalchemy import desc  # 👈 นำเข้า
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
+from fastapi import status
+
 
 models.Base.metadata.create_all(bind=database.engine)
-
-from fastapi import FastAPI
 
 app = FastAPI()
 
 @app.get("/")
 def root():
     return {"message": "Hello from FastAPI on Vercel!"}
+
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -74,3 +77,9 @@ def get_jobs(
     )
 
     return [job.__dict__ for job in sorted_jobs]
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)}
+    )
